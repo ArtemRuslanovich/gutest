@@ -1,0 +1,16 @@
+
+
+  services:
+
+    nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+      - ./backend/staticfiles:/staticfiles
+    depends_on:
+      - backend
+      - parser
+      - frontend
+    restart: unless-stopped
