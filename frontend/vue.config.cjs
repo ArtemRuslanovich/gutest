@@ -1,4 +1,5 @@
 module.exports = {
+  lintOnSave: false,
   publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -11,7 +12,7 @@ module.exports = {
         changeOrigin: true
       },
       '/parse': {
-        target: 'http://localhost:????', // еще не оформил
+        target: 'http://localhost:5000',
         changeOrigin: true
       }
     }

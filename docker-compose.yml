@@ -1,16 +1,63 @@
+version: '3.8'
 
+services:
+  db:
+    image: postgres:13-alpine
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  services:
+  backend:
+    build: ./backend
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    env_file: .env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
 
-    nginx:
-    build: ./nginx
+  parser:
+    build: ./parser
+    command: flask run --host=0.0.0.0 --port=5000
+    env_file: .env
+    volumes:
+      - ./parser:/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+    command: npm run serve
+
+  nginx:
+    image: nginx:alpine
     ports:
       - "80:80"
     volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./frontend/dist:/usr/share/nginx/html
-      - ./backend/staticfiles:/staticfiles
     depends_on:
       - backend
       - parser
       - frontend
-    restart: unless-stopped
+
+volumes:
+  postgres_data:
