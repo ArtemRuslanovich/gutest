@@ -1,0 +1,33 @@
+// Цвета
+$primary-color: #3498db;
+$secondary-color: #2c3e50;
+$success-color: #27ae60;
+$danger-color: #e74c3c;
+$warning-color: #f39c12;
+$info-color: #1abc9c;
+
+// Текст
+$text-color: #333;
+$text-light: #f8f9fa;
+$text-muted: #6c757d;
+
+// Границы
+$border-color: #dee2e6;
+$border-radius: 4px;
+
+// Тени
+$box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+$box-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.1);
+
+// Отступы
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Размеры экранов
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
